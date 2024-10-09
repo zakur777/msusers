@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SingUpRequestDTO {
 
-    @NotBlank(message = "El nombre no puede estar vacío")
     private String name;
 
     @NotBlank(message = "El email no puede estar vacío")

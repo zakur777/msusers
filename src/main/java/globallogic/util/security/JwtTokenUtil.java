@@ -38,6 +38,7 @@ public class JwtTokenUtil implements Serializable {
         String x = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
 
         claims.put("role", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining()));
+        claims.put("password", userDetails.getPassword());
         claims.put("test", "value-test");
         return doGenerateToken(claims, userDetails.getUsername());
     }
@@ -68,6 +69,10 @@ public class JwtTokenUtil implements Serializable {
 
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public String getPasswordFromToken(String token) {
+        return (String) getAllClaimsFromToken(token).get("password");
     }
 
     public Date getExpirationDateFromToken(String token){

@@ -40,13 +40,13 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime lastLogin;
 
-    @Column(nullable = false)
+    @Column(length = 500, nullable = true)
     private String token;
 
     @Column(nullable = false)
     private boolean isActive;
 
     @ManyToOne
-    @JoinColumn(name = "id_role", nullable = false, foreignKey = @ForeignKey(name = "FK_User_Role"))
+    @JoinColumn(name = "id_role", foreignKey = @ForeignKey(name = "FK_User_Role"))
     private Role role;
 }

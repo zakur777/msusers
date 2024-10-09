@@ -22,8 +22,8 @@ public class Phone {
     private Long number;
 
     @Column(nullable = false)
-    private Integer citycode;
+    private Integer cityCode;
 
     @Column(nullable = false)
-    private String countrycode;
+    private String countryCode;
 }

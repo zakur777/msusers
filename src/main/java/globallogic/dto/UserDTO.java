@@ -15,8 +15,6 @@ import java.util.List;
 public class UserDTO {
 
     private String id;
-
-    @NotBlank(message = "El nombre no puede estar vacío")
     private String name;
 
     @NotBlank(message = "El email no puede estar vacío")
