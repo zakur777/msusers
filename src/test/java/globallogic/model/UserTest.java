@@ -14,17 +14,10 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setId(UUID.randomUUID());
-        user.setName("John Doe");
-        user.setEmail("john.doe@example.com");
-        user.setPassword("password123");
-        user.setPhones(List.of(new Phone(1L, 1234567890L, 1, "US")));
-        user.setCreated(LocalDateTime.now());
-        user.setLastLogin(LocalDateTime.now());
-        user.setToken("sampleToken");
-        user.setActive(true);
-        user.setRole(new Role(1, "USER", true));
+        user = new User(UUID.randomUUID(), "John Doe", "john.doe@example.com", "password123",
+                List.of(new Phone(1L, 1234567890L, 1, "US")), LocalDateTime.now(),
+                LocalDateTime.now(), "sampleToken", true, new Role(1,
+                "USER", true));
     }
 
     @Test

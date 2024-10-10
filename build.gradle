@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.14'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'globallogic'
@@ -35,6 +36,12 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacoco{
+	toolVersion = "0.8.12"
+//	reportsDir = file("$buildDir/customJacocoReportDir")
 }

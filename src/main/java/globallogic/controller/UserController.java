@@ -1,7 +1,6 @@
 package globallogic.controller;
 
 import globallogic.dto.LogInRequestDTO;
-import globallogic.dto.SignUpResponseDTO;
 import globallogic.dto.SingUpRequestDTO;
 import globallogic.dto.UserDTO;
 import globallogic.mapper.SignUpRequestMapper;
@@ -10,7 +9,7 @@ import globallogic.model.User;
 import globallogic.service.UserService;
 import globallogic.util.security.JwtTokenUtil;
 import globallogic.util.security.JwtUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;

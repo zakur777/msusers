@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     private void saveUserPhones(User user) {
         List<Phone> phones = user.getPhones();
-        if (phones != null) {
+        if (!phones.isEmpty()) {
             phoneRepository.saveAll(phones);
         }
     }

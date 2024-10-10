@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 //Clase 7
-@Profile(value = {"development", "production"})
+//@Profile(value = {"development", "production"})
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

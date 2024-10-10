@@ -1,10 +1,13 @@
 package globallogic.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Positive;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PhoneDTO {
     private Long id;
 

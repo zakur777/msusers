@@ -1,8 +1,10 @@
 package globallogic.service.impl;
 
+import globallogic.dto.PhoneDTO;
 import globallogic.dto.UserDTO;
 import globallogic.exception.*;
 import globallogic.mapper.UserMapper;
+import globallogic.model.Phone;
 import globallogic.model.Role;
 import globallogic.model.User;
 import globallogic.repository.PhoneRepository;
@@ -21,11 +23,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -144,12 +148,58 @@ class UserServiceImplTest {
     void shouldThrowUpdateUserLoginExceptionWhenLoginUser() throws ServiceException, ModelNotFoundException {
         when(jwtUtil.getUsernameFromToken(anyString())).thenReturn("john@example.com");
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(jwtUserDetailsService.loadUserByUsername(anyString())).thenThrow(new UpdateUserLoginException("Update Error"));
+        when(jwtUserDetailsService.loadUserByUsername(anyString()))
+                .thenThrow(new UpdateUserLoginException("Update Error"));
 
         assertThrows(UpdateUserLoginException.class, () -> userService.login("token"));
 
     }
 
+    @Test
+    void shouldHandleExceptionInSignUp() {
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(userMapper.dtoToUser(any(UserDTO.class))).thenReturn(user);
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(roleRepository.save(any(Role.class))).thenReturn(new Role());
+        doThrow(new RuntimeException("Database error")).when(userRepository).save(any(User.class));
+
+        assertThrows(ServiceException.class, () -> userService.signUp(userDTO));
+    }
+
+    @Test
+    void shouldNotSavePhonesWhenPhonesIsNull() {
+        userDTO.setPhones(null);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(userMapper.dtoToUser(any(UserDTO.class))).thenReturn(user);
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(roleRepository.save(any(Role.class))).thenReturn(new Role());
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(jwtUserDetailsService.loadUserByUsername(anyString())).thenReturn(mock(UserDetails.class));
+        when(jwtUtil.generateToken(any(UserDetails.class))).thenReturn("token");
+
+        User result = userService.signUp(userDTO);
+
+        assertNotNull(result);
+        verify(phoneRepository, never()).saveAll(anyList());
+    }
+
+    @Test
+    void shouldSavePhonesWhenPhonesIsNotNull() {
+        user.setPhones(Arrays.asList(new Phone(1L,12345678L, 1, "56"), new Phone(2L,12345679L, 1, "56")));
+        userDTO.setPhones(Arrays.asList(new PhoneDTO(1L,12345678L, 1, "56"), new PhoneDTO(2L,12345679L, 1, "56")));
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(userMapper.dtoToUser(any(UserDTO.class))).thenReturn(user);
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(roleRepository.save(any(Role.class))).thenReturn(new Role());
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(jwtUserDetailsService.loadUserByUsername(anyString())).thenReturn(mock(UserDetails.class));
+        when(jwtUtil.generateToken(any(UserDetails.class))).thenReturn("token");
+
+        User result = userService.signUp(userDTO);
+
+        assertNotNull(result);
+        verify(phoneRepository, times(1)).saveAll(anyList());
+    }
 
 
 }
