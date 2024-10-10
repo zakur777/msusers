@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### AppMap ###
+appmap.json
+appmap.yml
+appmap.db
+appmap.log
+tmp/
