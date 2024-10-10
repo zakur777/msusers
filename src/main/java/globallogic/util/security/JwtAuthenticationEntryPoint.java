@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-//Clase S6
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 

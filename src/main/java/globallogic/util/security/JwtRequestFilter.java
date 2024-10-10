@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-//Clase S5
 //@Profile(value = {"development", "production"})
 @Component
 @RequiredArgsConstructor

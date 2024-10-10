@@ -3,7 +3,6 @@ package globallogic.util.security;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-//Clase S4
 @Getter
 @AllArgsConstructor
 public class JwtResponse {

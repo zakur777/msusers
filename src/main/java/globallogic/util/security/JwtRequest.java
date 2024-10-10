@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-//Clase S3
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

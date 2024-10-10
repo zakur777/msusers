@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl {
 
-    Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
+    //Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
 
     public boolean hasAccess(String path){
@@ -18,10 +18,10 @@ public class AuthServiceImpl {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        logger.info(username);
+        //logger.info(username);
         for(GrantedAuthority gra: auth.getAuthorities()){
             String rolUser = gra.getAuthority();
-            logger.info(rolUser);
+            //logger.info(rolUser);
         }
 
         return true;
