@@ -77,4 +77,35 @@ class UserMapperTest {
 
         assertNull(userDTO);
     }
+
+    @Test
+    void shouldMapEmptyPhoneList() {
+        // Arrange
+        UserDTO userDTO = new UserDTO();
+        userDTO.setPhones(null);
+
+        // Act
+        User user = userMapper.dtoToUser(userDTO);
+
+        // Assert
+        assertNotNull(user);
+        assertNull(user.getPhones());
+    }
+
+    @Test
+    void shouldHandleNullCreatedAndLastLogin() {
+        // Arrange
+        User user = new User();
+        user.setId(UUID.randomUUID());
+        user.setCreated(null);
+        user.setLastLogin(null);
+
+        // Act
+        UserDTO userDTO = userMapper.userToDto(user);
+
+        // Assert
+        assertNotNull(userDTO);
+        assertNull(userDTO.getCreated());
+        assertNull(userDTO.getLastLogin());
+    }
 }

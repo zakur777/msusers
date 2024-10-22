@@ -35,24 +35,5 @@ class JwtRequestTest {
         assertEquals("newPass", request.getPassword());
     }
 
-    @Test
-    void shouldImplementEqualsAndHashCode() {
-        JwtRequest request1 = new JwtRequest("user", "pass");
-        JwtRequest request2 = new JwtRequest("user", "pass");
-        JwtRequest request3 = new JwtRequest("otherUser", "pass");
-
-        assertEquals(request1, request2);
-        assertNotEquals(request1, request3);
-        assertEquals(request1.hashCode(), request2.hashCode());
-        assertNotEquals(request1.hashCode(), request3.hashCode());
-    }
-
-    @Test
-    void shouldImplementToString() {
-        JwtRequest request = new JwtRequest("user", "pass");
-        String toString = request.toString();
-        assertTrue(toString.contains("user"));
-        assertTrue(toString.contains("pass"));
-    }
 
 }

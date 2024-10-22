@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
 
-    private Error createError() {
+    protected Error createError() {
         Error error = new Error();
-        if (error.getError() == null) {
-            error.setError(new ArrayList<>());
-        }
+        error.setError(new ArrayList<>());
         return error;
     }
 

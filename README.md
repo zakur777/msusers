@@ -36,7 +36,18 @@
          
    /api/users/login 
    cuerpo del request en formato json:
-      {
+   
+   {
+   "username": "wbarra@mail.com",
+   "password": "Admin1234",
+   "token": "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IiQyYSQxMCRtLzZrQWVWV3pBVkF2MnBkVEdFNmFlelRFbmtqbGZpOTFReGRYSTZCY2U4NDROek1BZVouTyIsInJvbGUiOiJVU0VSIiwidGVzdCI6InZhbHVlLXRlc3QiLCJzdWIiOiJ3YmFycmFAbWFpbC5jb20iLCJpYXQiOjE3Mjg1MzY3MTUsImV4cCI6MTcyODU1NDcxNX0.T_V96k5-gZ5SqJJEGWb2y3GW3_-Go2w8jodxNpMfvlM"
+   }
+   ```
+            
+   ```bash
+   /api/users/signup.
+   cuerpo del request en formato json:
+   {
          "name": "Walter Barra",
          "email": "wbarra@mail.com",
          "password": "Admin1234",
@@ -48,16 +59,6 @@
             }
          ]
     }
-   ```
-            
-   ```bash
-   /api/users/signup.
-   cuerpo del request en formato json:
-      {
-      "username": "wbarra@mail.com",
-      "password": "Admin1234",
-      "token": "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IiQyYSQxMCRtLzZrQWVWV3pBVkF2MnBkVEdFNmFlelRFbmtqbGZpOTFReGRYSTZCY2U4NDROek1BZVouTyIsInJvbGUiOiJVU0VSIiwidGVzdCI6InZhbHVlLXRlc3QiLCJzdWIiOiJ3YmFycmFAbWFpbC5jb20iLCJpYXQiOjE3Mjg1MzY3MTUsImV4cCI6MTcyODU1NDcxNX0.T_V96k5-gZ5SqJJEGWb2y3GW3_-Go2w8jodxNpMfvlM"
-      }
    
    ```
 

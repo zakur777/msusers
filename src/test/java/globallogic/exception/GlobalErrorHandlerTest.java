@@ -10,17 +10,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GlobalErrorHandlerTest {
@@ -39,7 +44,7 @@ class GlobalErrorHandlerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        //when(methodArgumentNotValidException.getBindingResult()).thenReturn(bindingResult);
+        // when(methodArgumentNotValidException.getBindingResult()).thenReturn(bindingResult);
     }
 
     @Test
@@ -108,23 +113,48 @@ class GlobalErrorHandlerTest {
         assertEquals("Format error", response.getBody().getError().get(0).getDetail());
     }
 
-//    @Test
-//    void shouldHandleMethodArgumentNotValid() {
-//        when(methodArgumentNotValidException.getBindingResult()).thenReturn(bindingResult);
-//        when(bindingResult.getFieldErrors()).thenReturn(Arrays.asList(
-//                new FieldError("objectName", "field1", "Error 1"),
-//                new FieldError("objectName", "field2", "Error 2")
-//        ));
-//
-//        ResponseEntity<Object> response = globalErrorHandler.handleMethodArgumentNotValid(
-//                methodArgumentNotValidException, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-//        assertNotNull(response.getBody());
-//        assertTrue(response.getBody() instanceof Error);
-//        Error error = (Error) response.getBody();
-//        assertEquals(2, error.getError().size());
-//        assertEquals("Error 1", error.getError().get(0).getDetail());
-//        assertEquals("Error 2", error.getError().get(1).getDetail());
-//    }
+    @Test
+    void shouldHandleMethodArgumentNotValid() {
+        // Paso 1: Crear BindingResult con errores
+        Object target = new Object();
+        String objectName = "TestObject";
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(target, objectName);
+        bindingResult.addError(new FieldError(objectName, "field1", null, false, null, null, "Error 1"));
+        bindingResult.addError(new FieldError(objectName, "field2", null, false, null, null, "Error 2"));
+
+        // Paso 2: Crear MethodArgumentNotValidException con el BindingResult
+        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(null, bindingResult);
+
+        // Paso 3: Llamar al método y realizar las aserciones
+        ResponseEntity<Object> response = globalErrorHandler.handleMethodArgumentNotValid(
+                exception, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody() instanceof Error);
+
+        Error error = (Error) response.getBody();
+        assertEquals(2, error.getError().size());
+        assertEquals("Error 1", error.getError().get(0).getDetail());
+        assertEquals("Error 2", error.getError().get(1).getDetail());
+    }
+
+    @Test
+    void shouldCreateErrorWithInitializedList() throws Exception {
+        // Use reflection to make the protected method accessible
+        java.lang.reflect.Method method = GlobalErrorHandler.class.getDeclaredMethod("createError");
+        method.setAccessible(true);
+
+        // Invoke the method
+        Error error = (Error) method.invoke(globalErrorHandler);
+
+        // Assertions
+        assertNotNull(error);
+        assertNotNull(error.getError());
+        assertTrue(error.getError().isEmpty());
+    }
+
+
+
+
 }

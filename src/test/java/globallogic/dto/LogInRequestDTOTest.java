@@ -43,26 +43,4 @@ class LogInRequestDTOTest {
         dto.setToken("newToken");
         assertEquals("newToken", dto.getToken());
     }
-
-    @Test
-    void shouldImplementEqualsAndHashCode() {
-        LogInRequestDTO dto1 = new LogInRequestDTO("user", "pass", "token");
-        LogInRequestDTO dto2 = new LogInRequestDTO("user", "pass", "token");
-        LogInRequestDTO dto3 = new LogInRequestDTO("otherUser", "pass", "token");
-
-        assertEquals(dto1, dto2);
-        assertNotEquals(dto1, dto3);
-        assertEquals(dto1.hashCode(), dto2.hashCode());
-        assertNotEquals(dto1.hashCode(), dto3.hashCode());
-    }
-
-    @Test
-    void shouldImplementToString() {
-        LogInRequestDTO dto = new LogInRequestDTO("user", "pass", "token");
-        String toString = dto.toString();
-        assertTrue(toString.contains("user"));
-        assertTrue(toString.contains("pass"));
-        assertTrue(toString.contains("token"));
-    }
-
 }
